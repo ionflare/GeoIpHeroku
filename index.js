@@ -31,9 +31,9 @@ function promise2(inputText) {
 
 function testGeoIP(inputIP) {
 
-   geoip.lookup(inputIP);
+   var geo =geoip.lookup(inputIP);
    return new Promise( ( resolve, reject ) => {
-      message = geoip;
+      message = geo;
       resolve('gg');
   } );
 }
@@ -123,10 +123,10 @@ app.get('/', async (req, res) => {
     }
   */
   //var ip = "207.97.227.239";
-  var geo = await testGeoIP("58.10.224.143");  
+  var geo = await testGeoIP("10.33.183.21");  
   
   //await res.send(geo.country);
-  await res.send(req.connection.remoteAddress);
+  await res.send(message);
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
