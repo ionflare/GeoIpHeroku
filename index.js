@@ -4,7 +4,7 @@ const bodyParser = require('body-parser')
 const geoip = require('geoip-lite');
 
 // create a new express server
-//const app = express()
+const app = express()
 
 
 var MongoClient = require('mongodb').MongoClient
@@ -95,7 +95,6 @@ const clientBot_2 = new Client({
 */
 
 
-/*
 
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({
@@ -114,11 +113,11 @@ app.post('/callback', async (req, res) => {
         await promise2(xxx[idx].name);
         await promise2(xxx[idx].address);
     }
- 
+  */
   //var ip = "207.97.227.239";
   var geo = await geoip.lookup(req.ip);
   
-  res.send(geo.country);
+  await res.send(geo.country);
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
@@ -129,12 +128,3 @@ app.listen(process.env.PORT || 3000, () => {
   console.log('server starting on PORT:' + process.env.PORT)
 })
 
-*/
-var app = require('express').createServer();
-app.get('/',function(req,res) {
-	res.send("Hello World");
-});
-
-app.listen(process.env.PORT || 3000,function(){
-	console.log("listening on 3000");
-});
