@@ -29,6 +29,14 @@ function promise2(inputText) {
   } );
 }
 
+function testGeoIP(inputIP) {
+
+   geoip.lookup(inputIP);
+   return new Promise( ( resolve, reject ) => {
+      message = geoip;
+      resolve('gg');
+  } );
+}
 
 
 
@@ -115,10 +123,10 @@ app.get('/', async (req, res) => {
     }
   */
   //var ip = "207.97.227.239";
-  //var geo = await geoip.lookup(req.ip);
+  var geo = await testGeoIP(req.ip);  
   
   //await res.send(geo.country);
-  await res.send("www");
+  await res.send(message);
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
