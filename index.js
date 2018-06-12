@@ -1,22 +1,24 @@
-
-const http = require('http');
-const PORT = process.env.PORT || 5000;
-
-
-
+const express = require('express')
+const request = require('request')
+const bodyParser = require('body-parser')
 const geoip = require('geoip-lite');
 
+// create a new express server
+const app = express()
 
 
 var MongoClient = require('mongodb').MongoClient
+//var url = "mongodb://localhost:27017";
 var url = "mongodb://chanon:chanon1234@ds135552.mlab.com:35552/mlabtest";
 
-var message = "";
+var message = "Init ";
+
 var promise1 =(inputText) => new Promise((resolve, reject) => {
     setTimeout(() => {
         message += inputText;
+        //console.log(message);
         resolve(message);
-    }, 300)
+    }, 200)
 })
 
 function promise2(inputText) {
@@ -28,17 +30,6 @@ function promise2(inputText) {
 }
 
 
-function promise3() {
-
-   return new Promise( ( resolve, reject ) => {
-       http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end(message);
-    });
-      resolve('gg');
-  } );
-}
 
 
 function mongoQuery() {
@@ -47,14 +38,18 @@ function mongoQuery() {
    
      MongoClient.connect(url, function(err, db) {
     if (err) throw err;
+    //var dbo = db.db("mydb");
     var dbo = db.db("mlabtest");
-    var query = { name: "Company Inc"};
+    var query = { name: "Test ja"};
+    //dbo.collection("customers").findOne({}, function(err, result) {
     dbo.collection("customers").find(query).toArray(function(err, result)
     {
     if (err) { return reject( err );}
     else{
         resolve(result);
+  
     }
+
     db.close();
     });
     });
@@ -63,58 +58,73 @@ function mongoQuery() {
   
 }    
 
-function mongoInsert() {
-    
-    return new Promise( ( resolve, reject ) => {
-   
-     MongoClient.connect(url, function(err, db) {
-    if (err) throw err;
-    var dbo = db.db("mlabtest");
-    var myobj = { name: "Company Inc", address: "Test Insert Heroku" };
-    dbo.collection("customers").insertOne(myobj, function(err, result) {
-      
-       if ( err )
-       return reject( err );
-        else
-                {
-                 resolve(result);
-                }
-        db.close();
-        });
-    });
-   
-  });
-  
-}    
- 
-const blah = async function (){
-    /*
-    await mongoInsert();
-    var xxx = await mongoQuery();
-    for(var idx =0; idx<xxx.length; idx++ )
-    {
-        await promise1(xxx[idx].name);
-        await promise2(xxx[idx].address);
-    }
-    */
-    var ip = "207.97.227.239";
-    var geo = await geoip.lookup(ip);
 
-    
-   await promise2(" Testing from Cloud9");
-   await server();
-   await server_begin();
+
+function replyYesNoTemplate(client,replyToken, returnStr,postBackStr) {
+
+   return new Promise( ( resolve, reject ) => {
+      client.replyMessage(replyToken, 
+      {
+
+
+    type: "location",
+    title: "my location",
+    address: "SWP",
+    latitude: 13.7333,
+    longitude: 100.4833
+
+
+  
+ }
+ );
+        
+  } );
 }
 
-const server =   http.createServer((req, res) => {
-   res.statusCode = 200;
-   res.setHeader('Content-Type', 'text/plain');
-   res.end(message);
+
+
+const lineBot = require('@line/bot-sdk');
+const Client = require('@line/bot-sdk').Client;
+
+
+/*
+const clientBot_2 = new Client({
+  channelAccessToken:  '+Z00sQIfBQjVouvA+bFr9LpyYi5pErdfu0hejVGhtzlEmw3RJRyV0V5tohj832ykJqb2S+6mcIRvWhw7V7PDpFNWzRZlVNLg59J8PU+71rxjCqPJxfSIET6QcCoU1Vcb6UnJSMb/I5qVtwr4XpIhKQdB04t89/1O/w1cDnyilFU=',
+  channelSecret: 'cb7cdb67c6a8f02f2b7119365518108b'
+});
+*/
+
+
+
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({
+  extended: true
+})) // for parsing application/x-www-form-urlencoded
+
+app.post('/callback', async (req, res) => {
+ 
+     /*
+    var xxx = await mongoQuery();
+    //var yyy = await mongoInsert();
+    
+    
+    for(var idx =0; idx<xxx.length; idx++ )
+    {
+        await promise2(xxx[idx].name);
+        await promise2(xxx[idx].address);
+    }
+  */
+  //var ip = "207.97.227.239";
+  var geo = await geoip.lookup(req.ip);
+  
+  res.send(geo.country);
+   //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
+  
+  
+  
 })
 
-const server_begin =  server.listen(PORT, () => {
-  console.log(`Server running on ${PORT}/`);
+app.listen(process.env.PORT || 3000, () => {
+  console.log('server starting on PORT:' + process.env.PORT)
 })
-
-blah();    
 
