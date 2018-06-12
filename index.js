@@ -2,6 +2,12 @@
 const http = require('http');
 const PORT = process.env.PORT || 5000;
 
+
+
+const geoip = require('geoip-lite');
+
+
+
 var MongoClient = require('mongodb').MongoClient
 var url = "mongodb://chanon:chanon1234@ds135552.mlab.com:35552/mlabtest";
 
@@ -82,7 +88,7 @@ function mongoInsert() {
 }    
  
 const blah = async function (){
-    
+    /*
     await mongoInsert();
     var xxx = await mongoQuery();
     for(var idx =0; idx<xxx.length; idx++ )
@@ -90,6 +96,11 @@ const blah = async function (){
         await promise1(xxx[idx].name);
         await promise2(xxx[idx].address);
     }
+    */
+    var ip = "207.97.227.239";
+    var geo = await geoip.lookup(ip);
+
+    
    await promise2(" Testing from Cloud9");
    await server();
    await server_begin();
