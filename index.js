@@ -126,7 +126,7 @@ app.get('/', async (req, res) => {
   var geo = await testGeoIP("58.10.224.143");  
   
   //await res.send(geo.country);
-  await res.send(req.socket.address().family);
+  await res.send(req.socket.address().address);
   
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
