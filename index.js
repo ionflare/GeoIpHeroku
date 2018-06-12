@@ -101,7 +101,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 })) // for parsing application/x-www-form-urlencoded
 
-app.post('/', async (req, res) => {
+app.get('/', async (req, res) => {
  
      /*
     var xxx = await mongoQuery();
