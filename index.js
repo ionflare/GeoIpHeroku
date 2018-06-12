@@ -115,10 +115,10 @@ app.get('/', async (req, res) => {
     }
   */
   //var ip = "207.97.227.239";
-  var geo = await geoip.lookup(req.ip);
+  //var geo = await geoip.lookup(req.ip);
   
   //await res.send(geo.country);
-  await console.log(geo);
+  await console.log("www");
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
