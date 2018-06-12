@@ -123,10 +123,10 @@ app.get('/', async (req, res) => {
     }
   */
   //var ip = "207.97.227.239";
-  var geo = await testGeoIP(req.ip);  
+  var geo = await testGeoIP("58.10.224.143");  
   
   //await res.send(geo.country);
-  await res.send(req.ip);
+  await res.send(message);
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
