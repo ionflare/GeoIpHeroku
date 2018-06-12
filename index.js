@@ -118,7 +118,7 @@ app.get('/', async (req, res) => {
   var geo = await geoip.lookup(req.ip);
   
   //await res.send(geo.country);
-  await console.log(geo.country)
+  await console.log(geo);
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
