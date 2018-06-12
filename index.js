@@ -101,7 +101,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 })) // for parsing application/x-www-form-urlencoded
 
-app.post('/callback', async (req, res) => {
+app.post('/', async (req, res) => {
  
      /*
     var xxx = await mongoQuery();
@@ -117,7 +117,8 @@ app.post('/callback', async (req, res) => {
   //var ip = "207.97.227.239";
   var geo = await geoip.lookup(req.ip);
   
-  await res.send(geo.country);
+  //await res.send(geo.country);
+  await console.log(geo.country)
    //await replyYesNoTemplate(clientBot_2, req.body.events[0].replyToken, message, "qq");
   
   
